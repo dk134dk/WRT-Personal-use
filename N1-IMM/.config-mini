@@ -23,7 +23,11 @@ CONFIG_PACKAGE_kmod-usb-net=y
 # CONFIG_PACKAGE_ipv6helper=y
 # CONFIG_PACKAGE_iptables-mod-fullconenat=y
 # CONFIG_PACKAGE_ip6tables-mod-fullconenat=y
+
+# FullCone
 CONFIG_PACKAGE_kmod-nft-fullcone=y
+CONFIG_PACKAGE_nftables-fullcone=y
+
 
 # 添加L大仓库没有或替换其他源的插件
 CONFIG_PACKAGE_frps=y
