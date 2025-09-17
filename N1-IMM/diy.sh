@@ -68,10 +68,11 @@ mv package/small/luci-app-openclash package/luci-app-openclash
 sed -i 's|("OpenClash"), 50)|("OpenClash"), 3)|g' package/luci-app-openclash/luasrc/controller/*.lua
 
 # nikki
-# mv package/small/luci-app-nikki package/luci-app-nikki
-# mv package/small/nikki package/nikki
-# sed -i 's/"title": "Nikki",/&\n        "order": 1,/g' package/luci-app-nikki/root/usr/share/luci/menu.d/luci-app-nikki.json
-git clone --depth=1 https://github.com/lein134/OpenWrt-nikki-1.22.4 package/nikki
+mv package/small/luci-app-nikki package/luci-app-nikki
+mv package/small/nikki package/nikki
+sed -i 's/"title": "Nikki",/&\n        "order": 1,/g' package/luci-app-nikki/root/usr/share/luci/menu.d/luci-app-nikki.json
+# nikki - v1.22.4
+# git clone --depth=1 https://github.com/nikkinikki-org/OpenWrt-nikki -b v1.22.4 package/nikki
 
 # momo
 git clone --depth=1 https://github.com/nikkinikki-org/OpenWrt-momo package/momo
