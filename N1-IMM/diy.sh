@@ -95,10 +95,13 @@ mv package/small/luci-app-fileassistant package/luci-app-fileassistant
 # mv package/small/luci-app-wechatpush package/luci-app-wechatpush
 
 # design主题
-rm -rf feeds/luci/themes/luci-theme-design
-# mv package/small/luci-theme-design package/luci-theme-design
-git clone -b js https://github.com/0x676e67/luci-theme-design package/luci-theme-design
-mv package/small/luci-app-design-config package/luci-app-design-config
+# rm -rf feeds/luci/themes/luci-theme-design
+# git clone -b js https://github.com/0x676e67/luci-theme-design package/luci-theme-design
+# mv package/small/luci-app-design-config package/luci-app-design-config
+
+# kucat酷猫主题
+git clone -b js https://github.com/sirpdboy/luci-theme-kucat package/luci-theme-kucat
+git clone https://github.com/sirpdboy/luci-app-advancedplus package/luci-app-advancedplus
 
 # aria2 small无法启动
 # rm -rf feeds/packages/net/aria2
