@@ -57,10 +57,10 @@ git clone --depth=1 https://github.com/kenzok8/small-package package/small
 
 # timecontrol
 rm -rf feeds/luci/applications/luci-app-timecontrol
-mv package/small/luci-app-timecontrol package/luci-app-timecontrol
-sed -i 's/"admin", "control"/"admin", "network"/g' package/luci-app-timecontrol/luasrc/controller/*.lua
-sed -i 's/firstchild(), "Control", 44/firstchild(), "Network", 44/g' package/luci-app-timecontrol/luasrc/controller/*.lua
-sed -i 's/("Internet Time Control"), 10)/("Internet Time Control"), 90)/g' package/luci-app-timecontrol/luasrc/controller/*.lua
+git clone git clone https://github.com/sirpdboy/luci-app-timecontrol package/luci-app-timecontrol
+sed -i 's/"admin", "control"/"admin", "network"/g' package/luci-app-timecontrol/luci-app-nft-timecontrol/luasrc/controller/*.lua
+sed -i 's/firstchild(), "Control", 44/firstchild(), "Network", 99/g' package/luci-app-timecontrol/luci-app-nft-timecontrol/luasrc/controller/*.lua
+#sed -i 's/("Internet Time Control"), 10)/("Internet Time Control"), 90)/g' package/luci-app-timecontrol/luci-app-nft-timecontrol/luasrc/controller/*.lua
 
 # openclash
 rm -rf feeds/luci/applications/luci-app-openclash
