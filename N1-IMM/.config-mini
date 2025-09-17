@@ -58,7 +58,7 @@ CONFIG_PACKAGE_luci-app-openlist=y
 # -------------------------------------
 CONFIG_PACKAGE_luci-app-upnp=n
 CONFIG_PACKAGE_luci-app-wechatpush=y
-CONFIG_PACKAGE_luci-app-timecontrol=y
+CONFIG_PACKAGE_luci-app-nft-timecontrol=y
 #有可能报错
 CONFIG_PACKAGE_luci-app-vlmcsd=n
 CONFIG_PACKAGE_luci-app-qbittorrent-static=n
