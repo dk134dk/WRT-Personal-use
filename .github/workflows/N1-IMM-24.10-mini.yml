@@ -155,7 +155,7 @@ jobs:
         KERNEL_REPO_URL: breakingbadboy/OpenWrt
         KERNEL_VERSION_NAME: 6.6.80
         PACKAGE_SOC: s905d
-        SCRIPT_DIY_PATH: N1-IMM/mk_s905d_n1.sh
+        #SCRIPT_DIY_PATH: N1-IMM/mk_s905d_n1.sh
         WHOAMI: Lein
         OPENWRT_VER: $(date +"%Y.%m.%d")
         #SW_FLOWOFFLOAD: 0
