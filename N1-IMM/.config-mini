@@ -25,8 +25,8 @@ CONFIG_PACKAGE_ipv6helper=y
 # CONFIG_PACKAGE_ip6tables-mod-fullconenat=y
 
 # FullCone
-CONFIG_PACKAGE_kmod-nft-fullcone=y
-CONFIG_PACKAGE_nftables-fullcone=y
+# CONFIG_PACKAGE_kmod-nft-fullcone=y
+# CONFIG_PACKAGE_nftables-fullcone=y
 
 
 # 添加L大仓库没有或替换其他源的插件
@@ -50,7 +50,7 @@ CONFIG_PACKAGE_luci-app-poweroff=y
 CONFIG_PACKAGE_luci-app-aria2=y
 CONFIG_PACKAGE_luci-app-autoreboot=y
 CONFIG_PACKAGE_luci-app-cloudflarespeedtest=y
-CONFIG_PACKAGE_luci-app-attendedsysupgrade=y
+# CONFIG_PACKAGE_luci-app-attendedsysupgrade=y
 
 CONFIG_PACKAGE_luci-app-ttyd=y
 # 禁用alist,替换为openlist
@@ -59,7 +59,7 @@ CONFIG_PACKAGE_luci-app-openlist=y
 # -------------------------------------
 CONFIG_PACKAGE_luci-app-upnp=n
 CONFIG_PACKAGE_luci-app-wechatpush=y
-CONFIG_PACKAGE_luci-app-nft-timecontrol=y
+# CONFIG_PACKAGE_luci-app-nft-timecontrol=y
 #有可能报错
 CONFIG_PACKAGE_luci-app-vlmcsd=n
 CONFIG_PACKAGE_luci-app-qbittorrent-static=n
