@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Delete old release assets
-        uses: your-username/delete-old-release-assets@v1
+        uses: dk134dk/delete-old-release-assets@v1
         with:
           tag_names: ${{ github.event.inputs.tag_names }}
           keep_days_assets: ${{ github.event.inputs.keep_days_assets }}
