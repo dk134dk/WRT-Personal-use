@@ -179,8 +179,8 @@ jobs:
       if: ${{ env.PACKAGED_STATUS == 'success' }} && !cancelled()
       with:
         name: OpenWrt-LEDE[18.06] for N1[mini] - ${{ env.RELEASE_DATE }}
-        #tag: LEDE_N1_mini_${{ env.PACKAGED_OUTPUTDATE }}
-        tag: N1_LEDE_mini
+        tag: N1_LEDE_mini_${{ env.PACKAGED_OUTPUTDATE }}
+        #tag: N1_LEDE_mini
         artifacts: /opt/openwrt_packit/output/*
         allowUpdates: true
         token: ${{ secrets.GITHUB_TOKEN }}
@@ -199,4 +199,4 @@ jobs:
       with:
         keep_latest: 10
         delete_tags : true
-        delete_expired_data: 30
+        #delete_expired_data: 30
