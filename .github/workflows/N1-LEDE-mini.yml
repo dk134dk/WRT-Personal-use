@@ -197,6 +197,6 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        keep_latest: 10
+        keep_latest: 6
         delete_tags : true
         #delete_expired_data: 30
