@@ -1,5 +1,7 @@
 name: TEST
 
+name: N1-IMM-24.10-mini
+
 on:
   workflow_dispatch:
   schedule:
@@ -40,7 +42,7 @@ jobs:
     - name: Maximize build space
       uses: easimon/maximize-build-space@master
       with:
-        root-reserve-mb: 5120
+        root-reserve-mb: 20480
         swap-size-mb: 1024
         remove-dotnet: 'true'
         remove-android: 'true'
@@ -99,10 +101,6 @@ jobs:
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_SH
 
-    # - name: SSH connect to Actions
-      # uses: P3TERX/ssh2actions@main
-      # if: (github.event.inputs.ssh == 'true') || contains(github.event.action, 'ssh')
-
     - name: Download package
       working-directory: ./openwrt
       run: |
@@ -118,31 +116,29 @@ jobs:
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 || make -j1 V=s
         echo "compile_status=success" >> $GITHUB_ENV
-        cp -rp bin/packages /opt
+        cp -rp bin/packages /opt/packages
 
     - name: Package OpenWrt Firmware
       if: env.compile_status == 'success' && !cancelled()
       uses: unifreq/openwrt_packit@master
       env:
-        OPENWRT_ARMVIRT: openwrt/bin/targets/*/*/immortalwrt-armsr-armv8-generic-rootfs.tar.gz
+        OPENWRT_ARMVIRT: openwrt/bin/targets/*/*/*rootfs.tar.gz
         KERNEL_REPO_URL: breakingbadboy/OpenWrt
         KERNEL_VERSION_NAME: 6.6.80
         PACKAGE_SOC: s905d
-        #SCRIPT_DIY_PATH: N1-IMM/mk_s905d_n1.sh
         WHOAMI: Lein
         OPENWRT_VER: $(date +"%Y.%m.%d")
-        #SW_FLOWOFFLOAD: 0
-        #HW_FLOWOFFLOAD: 0
-        #SFE_FLOW: 0
-        #ENABLE_WIFI_K504: 0
-        #ENABLE_WIFI_K510: 0
 
     - name: Tar Packages
+      if: env.PACKAGED_STATUS == 'success' && !cancelled()
       run: |
-        cd /opt/packages
-        tar -zcvf IPKs.tar.gz *
-        mv IPKs.tar.gz /opt/openwrt_packit/output
-        rm -rf /opt/packages
+        mkdir -p /opt/openwrt_packit/output
+        if [ -d "/opt/packages" ]; then
+          cd /opt/packages
+          tar -zcvf IPKs.tar.gz *
+          mv IPKs.tar.gz /opt/openwrt_packit/output/
+          rm -rf /opt/packages
+        fi
         echo "RELEASE_DATE=$(date +"\%Y/\%m/\%d - \%H:\%M:\%S")" >> ${GITHUB_ENV}
         echo "RELEASE_TIME=$(date +"\%Y年\%m月\%d日 \vert{} \%H时\%M分\%S秒")" >> ${GITHUB_ENV}
 
@@ -152,7 +148,6 @@ jobs:
       with:
         name: OpenWrt-ImmortalWRT[24.10] for N1[mini] - ${{ env.RELEASE_DATE }}
         tag: N1_IMM_mini_${{ env.PACKAGED_OUTPUTDATE }}
-        #tag: N1_IMM_mini
         artifacts: /opt/openwrt_packit/output/*
         allowUpdates: true
         token: ${{ secrets.GITHUB_TOKEN }}
@@ -166,9 +161,9 @@ jobs:
 
     - name: Delete old releases
       uses: dev-drprasad/delete-older-releases@master
+      if: env.PACKAGED_STATUS == 'success' && !cancelled()
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         keep_latest: 6
-        delete_tags : true
-        #delete_expired_data: 30
+        delete_tags: true
