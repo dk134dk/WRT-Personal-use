@@ -114,7 +114,7 @@ jobs:
         cp -rp bin/packages /opt
 
     - name: Package OpenWrt Firmware
-      if: ${{ env.compile_status }} == 'success' && !cancelled()
+      if: env.compile_status == 'success' && !cancelled()
       uses: unifreq/openwrt_packit@master
       env:
         OPENWRT_ARMVIRT: openwrt/bin/targets/*/*/immortalwrt-armsr-armv8-generic-rootfs.tar.gz
