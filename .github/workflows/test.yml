@@ -37,24 +37,18 @@ jobs:
         echo "硬盘详情："
         df -Th
 
-    - name: Maximize build space
-      uses: easimon/maximize-build-space@master
-      with:
-        root-reserve-mb: 20480
-        swap-size-mb: 1024
-        remove-dotnet: 'true'
-        remove-android: 'true'
-        remove-haskell: 'true'
-        remove-codeql: 'true'
-        remove-docker-images: 'true'
-        build-mount-path: ${{ github.workspace }}
-
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Free up disk space complete
+    - name: Free up disk space
       run: |
-        echo "Free up disk space complete"
+        echo "清理大文件及预装环境以释放根目录空间..."
+        sudo rm -rf /usr/share/dotnet
+        sudo rm -rf /usr/local/lib/android
+        sudo rm -rf /opt/ghc
+        sudo rm -rf /usr/local/share/powershell
+        sudo rm -rf /usr/share/swift
+        sudo rm -rf /var/lib/docker
         echo "=============================================================================="
         df -hT
         echo "=============================================================================="
