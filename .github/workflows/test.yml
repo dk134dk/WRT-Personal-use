@@ -42,7 +42,7 @@ jobs:
 
     - name: Free up disk space
       run: |
-        echo "清理大文件及预装环境以释放根目录空间..."
+        echo "清理大文件及预装环境以释放空间..."
         sudo rm -rf /usr/share/dotnet
         sudo rm -rf /usr/local/lib/android
         sudo rm -rf /opt/ghc
@@ -62,7 +62,6 @@ jobs:
         sudo -E apt-get -qq autoremove --purge
         sudo -E apt-get -qq clean
         sudo timedatectl set-timezone "$TZ"
-        sudo chown $USER:$GROUPS$GITHUB_WORKSPACE
 
     - name: Clone source code
       working-directory: ./
