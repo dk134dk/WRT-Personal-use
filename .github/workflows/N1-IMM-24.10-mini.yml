@@ -148,7 +148,7 @@ jobs:
         cp -rp bin/packages /opt
 
     - name: Package OpenWrt Firmware
-      if: ${{ env.compile_status }} == 'success' && !cancelled()
+      if: $env.compile_status == 'success' && !cancelled()
       uses: unifreq/openwrt_packit@master
       env:
         OPENWRT_ARMVIRT: openwrt/bin/targets/*/*/immortalwrt-armsr-armv8-generic-rootfs.tar.gz
@@ -175,7 +175,7 @@ jobs:
        
     - name: Upload OpenWrt Firmware to Release
       uses: ncipollo/release-action@main
-      if: ${{ env.PACKAGED_STATUS == 'success' }} && !cancelled()
+      if: $env.PACKAGED_STATUS == 'success' && !cancelled()
       with:
         name: OpenWrt-ImmortalWRT[24.10] for N1[mini] - ${{ env.RELEASE_DATE }}
         tag: N1_IMM_mini_${{ env.PACKAGED_OUTPUTDATE }}
