@@ -1,4 +1,4 @@
-name: N1-IMM-24.10-mini
+name: TEST
 
 on:
   workflow_dispatch:
