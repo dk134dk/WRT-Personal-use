@@ -15,7 +15,7 @@ function git_sparse_clone() {
 # lucky
 rm -rf feeds/packages/net/lucky
 rm -rf feeds/luci/applications/luci-app-lucky
-git clone --depth=1 https://github.com/gdy666/luci-app-lucky package/lucky
+git clone --depth=1 https://github.com/sirpdboy/luci-app-lucky package/lucky
 
 # msd_lite用23.05自带
 # rm -rf feeds/packages/net/msd_lite
@@ -23,9 +23,9 @@ git clone --depth=1 https://github.com/gdy666/luci-app-lucky package/lucky
 # git clone --depth=1 https://github.com/ximiTech/msd_lite package/msd_lite
 # git clone --depth=1 https://github.com/ximiTech/luci-app-msd_lite package/luci-app-msd_lite
 
-# golang版本修复
+# golang版本修复 - 官方
 rm -rf feeds/packages/lang/golang
-git clone https://github.com/sbwml/packages_lang_golang -b 24.x feeds/packages/lang/golang
+git clone https://github.com/sbwml/packages_lang_golang -b 26.x feeds/packages/lang/golang
 
 # mosdns
 rm -rf feeds/packages/net/v2ray-geodata
@@ -70,6 +70,7 @@ sed -i 's|("OpenClash"), 50)|("OpenClash"), 3)|g' package/luci-app-openclash/lua
 # nikki最新版本
 mv package/small/luci-app-nikki package/luci-app-nikki
 mv package/small/nikki package/nikki
+mv package/small/mihomo package/mihomo
 sed -i 's/"title": "Nikki",/&\n        "order": 1,/g' package/luci-app-nikki/root/usr/share/luci/menu.d/luci-app-nikki.json
 # nikki - v1.22.4 版本
 # git clone --depth=1 https://github.com/nikkinikki-org/OpenWrt-nikki -b v1.22.4 package/nikki
