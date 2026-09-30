@@ -8,6 +8,20 @@ function git_sparse_clone() {
   mv -f $@ ../package
   cd .. && rm -rf $repodir
 }
+# 优化后的稀疏克隆, 克隆指定目录到本地的指定目录
+function git_sparse_clone1() {
+  branch="$1" repourl="$2" target_dir="$3" && shift 3
+  git clone --depth=1 -b $branch --single-branch --filter=blob:none --sparse $repourl
+  repodir=$(echo $repourl | awk -F '/' '{print $(NF)}')
+  cd $repodir && git sparse-checkout set $@
+  
+  # 确保目标文件夹存在
+  mkdir -p "../$target_dir"
+  # 将拉取到的目录下的所有内容拷贝到目标文件夹
+  cp -rf $@/* "../$target_dir/"
+  
+  cd .. && rm -rf $repodir
+}
 
 # Default IP
 # sed -i 's/192.168.1.1/192.168.2.2/g' package/base-files/files/bin/config_generate
@@ -15,7 +29,7 @@ function git_sparse_clone() {
 # tailscale
 rm -rf feeds/packages/net/tailscale
 git clone https://github.com/Tokisaki-Galaxy/luci-app-tailscale-community package/tailscale
-git clone https://github.com/GuNanOvO/openwrt-tailscale package/tailscale
+git_sparse_clone1 main https://github.com/GuNanOvO/openwrt-tailscale feeds/packages/net package
 
 # lucky
 rm -rf feeds/packages/net/lucky
