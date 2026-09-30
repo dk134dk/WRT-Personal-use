@@ -140,8 +140,8 @@ jobs:
           mv IPKs.tar.gz /opt/openwrt_packit/output/
           rm -rf /opt/packages
         fi
-        echo "RELEASE_DATE=$(date +"\%Y/\%m/\%d - \%H:\%M:\%S")" >> ${GITHUB_ENV}
-        echo "RELEASE_TIME=$(date +"\%Y年\%m月\%d日 \vert{} \%H时\%M分\%S秒")" >> ${GITHUB_ENV}
+        echo "RELEASE_DATE=$(date +"%Y/%m/%d - %H:%M:%S")" >> ${GITHUB_ENV}
+        echo "RELEASE_TIME=$(date +"%Y年%m月%d日 | %H时%M分%S秒")" >> ${GITHUB_ENV}
 
     - name: Upload OpenWrt Firmware to Release
       uses: ncipollo/release-action@main
