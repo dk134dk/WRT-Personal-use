@@ -12,6 +12,11 @@ function git_sparse_clone() {
 # Default IP
 # sed -i 's/192.168.1.1/192.168.2.2/g' package/base-files/files/bin/config_generate
 
+# tailscale
+rm -rf feeds/packages/net/tailscale
+git clone https://github.com/Tokisaki-Galaxy/luci-app-tailscale-community package/tailscale
+git clone https://github.com/GuNanOvO/openwrt-tailscale package/tailscale
+
 # lucky
 rm -rf feeds/packages/net/lucky
 rm -rf feeds/luci/applications/luci-app-lucky
