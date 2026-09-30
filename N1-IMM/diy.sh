@@ -101,7 +101,8 @@ mv package/small/luci-app-fileassistant package/luci-app-fileassistant
 # mv package/small/luci-app-design-config package/luci-app-design-config
 
 # kucat酷猫主题
-git clone -b js https://github.com/sirpdboy/luci-theme-kucat package/luci-theme-kucat
+# git clone -b js https://github.com/sirpdboy/luci-theme-kucat package/luci-theme-kucat
+git clone https://github.com/sirpdboy/luci-theme-kucat package/luci-theme-kucat
 git clone https://github.com/sirpdboy/luci-app-advancedplus package/luci-app-advancedplus
 
 # aria2 small无法启动
