@@ -2,8 +2,8 @@ name: TEST
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "40 7 */5 * *"  
+  #schedule:
+    #- cron: "40 7 */5 * *"  
 
 env:
   REPO_URL: https://github.com/immortalwrt/immortalwrt
