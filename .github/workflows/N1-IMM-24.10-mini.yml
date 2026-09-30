@@ -8,7 +8,7 @@ on:
 env:
   REPO_URL: https://github.com/immortalwrt/immortalwrt
   REPO_BRANCH: openwrt-24.10
-#  REPO_BRANCH: v24.10.1
+# REPO_BRANCH: v24.10.1
   CONFIG_FILE: N1-IMM/.config-mini
   DIY_SH: N1-IMM/diy.sh
   FILES: N1-IMM/files
@@ -36,55 +36,22 @@ jobs:
         echo -e  "硬盘数量：$(ls /dev/sd* | grep -v [1-9] | wc -l) \n"
         echo "硬盘详情："
         df -Th
-        
-    - name: Before freeing up disk space
-      run: |
-        echo "Before freeing up disk space"
-        echo "=============================================================================="
-        df -hT
-        echo "=============================================================================="
 
-    - name: "Optimize Disk Space"
-      uses: "hugoalh/disk-space-optimizer-ghaction@v0.8.1"
-      with:
-        operate_sudo: "True"
-        general_include: ".+"
-        general_exclude: |-
-          ^GCC$
-          ^G\+\+$
-          Clang
-          LLVM
-        docker_include: ".+"
-        docker_prune: "True"
-        docker_clean: "True"
-        apt_prune: "True"
-        apt_clean: "True"
-        homebrew_prune: "True"
-        homebrew_clean: "True"
-        npm_prune: "True"
-        npm_clean: "True"
-        os_swap: "True"
-
-    - name: Freeing up disk space
-      uses: easimon/maximize-build-space@master
-      with: 
-        root-reserve-mb: 10240
-        swap-size-mb: 1
-        remove-dotnet: 'true'
-        remove-android: 'true'
-        remove-haskell: 'true'
-        remove-codeql: 'true'
-        remove-docker-images: 'true'
-
-    - name: Free up disk space complete
-      run: |
-        echo "Free up disk space complete"
-        echo "=============================================================================="
-        df -hT
-        echo "=============================================================================="
-        
     - name: Checkout
-      uses: actions/checkout@main
+      uses: actions/checkout@v4
+
+    - name: Free up disk space
+      run: |
+        echo "清理大文件及预装环境以释放空间..."
+        sudo rm -rf /usr/share/dotnet
+        sudo rm -rf /usr/local/lib/android
+        sudo rm -rf /opt/ghc
+        sudo rm -rf /usr/local/share/powershell
+        sudo rm -rf /usr/share/swift
+        sudo rm -rf /var/lib/docker
+        echo "=============================================================================="
+        df -hT
+        echo "=============================================================================="
       
     - name: Initialize environment
       env:
@@ -95,7 +62,6 @@ jobs:
         sudo -E apt-get -qq autoremove --purge
         sudo -E apt-get -qq clean
         sudo timedatectl set-timezone "$TZ"
-        sudo chown $USER:$GROUPS $GITHUB_WORKSPACE
 
     - name: Clone source code
       working-directory: ./
@@ -105,7 +71,7 @@ jobs:
         git clone --depth=1 https://github.com/RayleanB/dropbear dropbear
         rm -rf dropbear/.git && mv -f dropbear openwrt/package/network/services
 
-    - name: cache wrt build
+    - name: Cache wrt build
       uses: stupidloud/cachewrtbuild@main
       with:
         ccache: 'true'
@@ -148,7 +114,7 @@ jobs:
         cp -rp bin/packages /opt
 
     - name: Package OpenWrt Firmware
-      if: ${{ env.compile_status }} == 'success' && !cancelled()
+      if: env.compile_status == 'success' && !cancelled()
       uses: unifreq/openwrt_packit@master
       env:
         OPENWRT_ARMVIRT: openwrt/bin/targets/*/*/immortalwrt-armsr-armv8-generic-rootfs.tar.gz
@@ -165,21 +131,24 @@ jobs:
         #ENABLE_WIFI_K510: 0
 
     - name: Tar Packages
+      if: env.PACKAGED_STATUS == 'success' && !cancelled()
       run: |
-        cd /opt/packages
-        tar -zcvf IPKs.tar.gz *
-        mv IPKs.tar.gz /opt/openwrt_packit/output
-        rm -rf /opt/packages
+        mkdir -p /opt/openwrt_packit/output
+        if [ -d "/opt/packages" ]; then
+          cd /opt/packages
+          tar -zcvf IPKs.tar.gz *
+          mv IPKs.tar.gz /opt/openwrt_packit/output/
+          rm -rf /opt/packages
+        fi
         echo "RELEASE_DATE=$(date +"%Y/%m/%d - %H:%M:%S")" >> ${GITHUB_ENV}
         echo "RELEASE_TIME=$(date +"%Y年%m月%d日 | %H时%M分%S秒")" >> ${GITHUB_ENV}
        
     - name: Upload OpenWrt Firmware to Release
       uses: ncipollo/release-action@main
-      if: ${{ env.PACKAGED_STATUS }} == 'success' && !cancelled()
+      if: env.PACKAGED_STATUS == 'success' && !cancelled()
       with:
-        name: OpenWrt-ImmortalWRT[24.10] for N1[mini] - ${{ env.RELEASE_DATE }}
-        tag: N1_IMM_mini_${{ env.PACKAGED_OUTPUTDATE }}
-        #tag: N1_IMM_mini
+        name: Immortalwrt[24.10] for N1[mini] - ${{ env.RELEASE_DATE }}
+        tag: Immortalwrt-24.10
         artifacts: /opt/openwrt_packit/output/*
         allowUpdates: true
         token: ${{ secrets.GITHUB_TOKEN }}
@@ -191,11 +160,3 @@ jobs:
           2. 更新固件：将固件放在 `/mnt/mmcblk2p4/` 目录下，输入命令 `openwrt-update-amlogic` 可直接更新
           3. 登录Luci界面后，可直接使用`晶晨宝盒`插件进行写入emmc或者更新操作（使用前先按需求填写好插件设置），免去手动输入命令
           
-    - name: Delete old releases
-      uses: dev-drprasad/delete-older-releases@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        keep_latest: 6
-        delete_tags : true
-        #delete_expired_data: 30
