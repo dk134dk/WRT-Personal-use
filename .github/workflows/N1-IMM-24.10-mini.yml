@@ -140,20 +140,21 @@ jobs:
           mv IPKs.tar.gz /opt/openwrt_packit/output/
           rm -rf /opt/packages
         fi
-        echo "RELEASE_DATE=$(date +"%Y/%m/%d - %H:%M:%S")" >> ${GITHUB_ENV}
+        echo "RELEASE_DATE=$(date +"%Y/%m/%d %H:%M:%S")" >> ${GITHUB_ENV}
+        echo "RELEASE_DATE1=$(date +"%y%m%d)" >> ${GITHUB_ENV}
         echo "RELEASE_TIME=$(date +"%Y年%m月%d日 | %H时%M分%S秒")" >> ${GITHUB_ENV}
        
     - name: Upload OpenWrt Firmware to Release
       uses: ncipollo/release-action@main
       if: env.PACKAGED_STATUS == 'success' && !cancelled()
       with:
-        name: immortalwrt[24.10] for N1[mini] - ${{ env.RELEASE_DATE }}
-        tag: immortalwrt-${{ env.PACKAGED_OUTPUTDATE }}
+        name: immortalwrt ${{ env.RELEASE_DATE }}
+        tag: immortalwrt[${{ env.RELEASE_DATE1 }}]
         artifacts: /opt/openwrt_packit/output/*
         allowUpdates: true
         token: ${{ secrets.GITHUB_TOKEN }}
         body: |
-          编译时间: ${{ env.RELEASE_TIME }}
+          immortalwrt-24.10 for N1, 编译时间: ${{ env.RELEASE_TIME }}
 
           * **使用方法：**
           1. 安装固件：写入U盘直接使用；U盘启动后可输入命令 `openwrt-install-amlogic` 按照英文提示写入到emmc
