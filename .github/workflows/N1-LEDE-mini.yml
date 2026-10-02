@@ -142,7 +142,7 @@ jobs:
           rm -rf /opt/packages
         fi
         echo "RELEASE_DATE=$(date +"%Y/%m/%d %H:%M:%S")" >> ${GITHUB_ENV}
-        echo "RELEASE_DATE1=$(date +"%y%m%d)" >> ${GITHUB_ENV}
+        echo "RELEASE_DATE1=$(date +"%y%m%d")" >> ${GITHUB_ENV}
         echo "RELEASE_TIME=$(date +"%Y年%m月%d日 | %H时%M分%S秒")" >> ${GITHUB_ENV}
        
     - name: Upload OpenWrt Firmware to Release
